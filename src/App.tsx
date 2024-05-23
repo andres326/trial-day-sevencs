@@ -20,8 +20,11 @@ function App() {
     const map = new Map({
       target: "map", //* id of the map div
       view: new View({
-        center: transform([mapState.lon, mapState.lat], "EPSG:3857", "EPSG:4326"),
+        projection: "EPSG:3857",
+        center: transform([mapState.lon, mapState.lat], "EPSG:4326", "EPSG:3857"),
         zoom: mapState.zoom,
+        minZoom: 3,
+        maxZoom: 18,
       }),
       controls: [],
     })
@@ -34,7 +37,7 @@ function App() {
     }
   }, [])
 
-  const handleMoveEndEvent = (event: MapEvent) => {
+  const handleMoveEndEvent = (event: MapEvent): void => {
     const map = event.map
     const view = map.getView()
     const center = view.getCenter() || [0, 0]
@@ -46,7 +49,7 @@ function App() {
   }
   return (
     <>
-      <div style={{ height: '600px', width: '800px' }} id="map" />
+      <div style={{ height: '600px', width: '800px', marginBottom: '5px' }} id="map" />
       <ToggleButton />
     </>
   )

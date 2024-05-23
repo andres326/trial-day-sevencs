@@ -13,5 +13,5 @@ export function ToggleButton() {
 		}
 	}
 
-	return <button onClick={handleClick}>Put WMS Layer</button>
+	return <button onClick={handleClick}>{`${wmsLayerActive ? 'Disable' : 'Enable'} WMS Layer`}</button>
 }

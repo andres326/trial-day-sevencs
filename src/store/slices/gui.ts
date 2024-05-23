@@ -11,9 +11,9 @@ export interface IGUIState {
 
 const initialState: IGUIState = {
 	mapState: {
-		lat: 51.82,
-		lon: 10.45,
-		zoom: 4,
+		lat: 53.51,
+		lon: 9.54,
+		zoom: 7,
 	},
 };
 
