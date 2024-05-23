@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface IGUIState {
 	mapState: {
@@ -19,7 +20,19 @@ const initialState: IGUIState = {
 export const guiSlice = createSlice({
 	name: 'gui',
 	initialState,
-	reducers: {}
+	reducers: {
+		moveEnd: (state, action: PayloadAction<IGUIState>) => {
+			const { mapState } = action.payload
+			const newState = {
+				mapState: {
+					...state.mapState,
+					...mapState
+				}
+			}
+			return newState
+		}
+	}
 })
 
 export default guiSlice.reducer
+export const { moveEnd } = guiSlice.actions
