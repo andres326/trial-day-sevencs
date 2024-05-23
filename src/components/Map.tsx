@@ -1,12 +1,11 @@
 import Map from "ol/Map";
 import View from "ol/View";
-import { transform } from "ol/proj";
 import { useEffect, useState } from "react";
 import ImageLayer from "ol/layer/Image";
 import TileLayer from "ol/layer/Tile";
 import ImageWMSSource from "ol/source/ImageWMS";
 import TileImage from "ol/source/TileImage";
-import OSM from "ol/source/OSM";
+import { useAppSelector } from "../hooks/store";
 
 
 export default function CustomMap() {
@@ -32,28 +31,29 @@ export default function CustomMap() {
 		}),
 	);
 
-	useEffect(() => {
+	const { mapState } = useAppSelector((state) => state.gui)
 
-		const osmLayer = new TileLayer({
-			preload: Infinity,
-			source: new OSM(),
-		})
+	useEffect(() => {
+		console.log({ mapState})
+		openStreetMapLayer.setSource(openStreetMapSource)
+		wmsLayer.setSource(wmsSource)
+
 		const map = new Map({
-			layers: [
-				osmLayer
-			],
 			target: "map", //* id of the map div
 			view: new View({
-				center: [0, 0],
-				zoom: 0,
+				center: [mapState.lon, mapState.lat],
+				zoom: mapState.zoom,
 			}),
 			controls: [],
 		})
+
+		map.addLayer(openStreetMapLayer)
+		//map.addLayer(wmsLayer)
 
 		return () => map.setTarget(undefined)
 	}, [])
 
 	return (
-		<div id='map' style={{ width: '800px', height: '600px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}></div>
+		<div style={{ height: '600px', width: '800px' }} id="map" />
 	)
 }
